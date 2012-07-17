@@ -1,7 +1,7 @@
 
 # templates
 
-## `template.tex`
+## `default.tex`
 
 this is a generic template for producing pdf output from markdown sources.
 
@@ -12,7 +12,7 @@ this is a generic template for producing pdf output from markdown sources.
 in="yeah.md"
 # output filename
 out="buh.pdf"
-pandoc --from=markdown --template=template.tex -V tables \
+pandoc --from=markdown --template=default.tex \
   --smart --tab-stop=2 --toc --latex-engine=xelatex \
   --output=${out} ${in}
 ```

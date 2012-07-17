@@ -39,10 +39,12 @@ $else$
     color: #bababa;
   }
 
+  ul, ol {  padding-bottom: 1.333em;  }
   p { margin-bottom: 1.333em; }
   strong {  color: #e77e76; }
   em {  font-weight: 400; color: #fdfdfd;}
-  code {  font-family: PT Mono; color: #cdcdcd;}
+  code {  font-family: PT Mono; color: #cdcdcd; background-color: #153037; }
+  pre { font-size: .75em; line-height: 1em; }
  
   address, blockquote, dl, fieldset, p, form, h1, h2, h3, h4, 
   h5, h6, hr, ol, pre, table, ul, dl { 
@@ -73,9 +75,11 @@ $else$
   ul { list-style-type: circle;}
   ol { list-style-type: decimal;}
   ul, ol {
-    margin: 10px 10px 10px 80px;
+    margin: 0 0;
+    margin-left: 2em;
   }
   li { text-align: left; }
+
   section.titleslide h1 {}
   h1.title { 
 
@@ -211,10 +215,11 @@ $else$
   .incremental > * { opacity: 1; }
 
   /* The current item */
-  .incremental > *[aria-selected] { color: #e77e76; opacity: 1; font-weight: 500;}
+  .incremental > *[aria-selected] { background-color: #153037; opacity: 1; font-weight: 500;}
+  li[aria-selected] { list-style-type: disc;}
 
   /* The items to-be-selected */
-  .incremental > *[aria-selected] ~ * { opacity: 0.3; }
+  .incremental > *[aria-selected] ~ * { opacity: 0.2; }
 </style>
 $endif$
 $if(math)$
