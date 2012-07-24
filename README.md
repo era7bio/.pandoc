@@ -8,7 +8,7 @@ This is where [pandoc](http://johnmacfarlane.net/pandoc/) looks for things such 
 pandoc assumes that its data dir is at
 
 - **unix** `$HOME/.pandoc`
-- **windows** `C:\Documents And Settings\USERNAME\Application Data\pandoc`
+- **windows** `$HOME\AppData\Roaming\pandoc`
 
 clone this repo there
 
@@ -17,6 +17,8 @@ clone this repo there
 cd ~
 git clone era7bioinformatics/.pandoc
 # for windows 7:
-cd $HOME
-git clone https://github.com/era7bioinformatics/.pandoc.git
+cd $HOME\AppData\Roaming
+git clone https://github.com/era7bioinformatics/.pandoc.git pandoc
 ```
+
+
