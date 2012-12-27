@@ -15,10 +15,10 @@ clone this repo there
 ``` bash
 # unix, assuming hub installed
 cd ~
-git clone era7bioinformatics/.pandoc
+git clone era7bio/.pandoc
 # for windows 7:
 cd $HOME\AppData\Roaming
-git clone https://github.com/era7bioinformatics/.pandoc.git pandoc
+git clone https://github.com/era7bio/.pandoc.git pandoc
 ```
 
 
