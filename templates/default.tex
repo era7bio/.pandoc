@@ -3,6 +3,17 @@
 
 \usepackage{ifxetex}
 
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+$endif$
+$if(biblatex)$
+\usepackage{biblatex}
+$if(biblio-files)$
+\bibliography{$biblio-files$}
+$endif$
+$endif$
+
 % The declaration of the document class:
 
 % The second line here, i.e.
@@ -121,6 +132,7 @@
 % so if you just keep a copy of this template in the directory you are working in, you
 % can adjust the margins by going into this file and messing with the margins.
 % the syntax is very unforgiving, but permits 3cm and 2.5in and some other things.
+
 
 \usepackage{ctable}
 \usepackage{float}
@@ -283,9 +295,6 @@ commandchars=\\\{\}}
 \renewcommand{\textcolor}[2]{{\addfontfeature{Color=#1}#2}}
 $endif$
 
-% Page format:
-\usepackage{fancyhdr}
-\pagestyle{fancy}  
 % The default `plain` pagestyle just numbers the pages,
 % whereas  
 % \pagestyle{empty} 
@@ -340,18 +349,20 @@ doinside={}, mincapwidth=0pt, table,
 framebg=1 1 1, nonotespar, topcap,
 framefg=.3 .1 .68, nosideways, width=0pt
 }
-% $if(tables)$
-% \usepackage{array}
+ $if(tables)$
+ \usepackage{array}
 
 % % Continuing on the topic of tables ... (we havent reached `endif`). 
 % % The commented out line below is in the default pandoc  latex.template.
 % % Some unpleasantness with table formatting must be corrected.
 
 % % -- This is needed because raggedright in table elements redefines \\:
-% \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
-% \let\PBS=\PreserveBackslash
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\let\PBS=\PreserveBackslash
 
-% $endif$
+\usepackage{longtable}
+
+$endif$
 
 
 % Subscripts:
@@ -418,7 +429,7 @@ $endif$
 % `markdown2pdf my.txt --number-sections --xetex --template=/wherever/this/is -o my.pdf`
 $if(numbersections)$
 $else$
-\setcounter{secnumdepth}{0}
+\setcounter{secnumdepth}{3}
 $endif$
 
 % Footnotes: 
@@ -446,11 +457,61 @@ $endfor$
 
 $if(title)$
 \title{\titlefont $title$}
+$else$
+\title{you need a title!}
 $endif$
 \author{$for(author)$$author$$sep$\\$endfor$}
 $if(date)$
 \date{$date$}
 $endif$
+
+% space between text and footer
+% 
+% footer height
+\setlength{\footskip}{3\baselineskip}
+\setlength{\headsep}{3\baselineskip}
+\setlength{\skip\footins}{0cm}
+% \setlength{\voffset}{-10pt}
+\setlength{\topmargin}{0pt}
+% \setlength{\textheight}{612pt}
+
+
+\makeatletter
+\let\Title\@title
+\let\Author\@author
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\sectionmark}[1]{%
+\markboth{#1}{}}
+
+% \fancyheadoffset{0cm}
+\renewcommand{\headrulewidth}{.5pt}
+
+\renewcommand{\headrule}{\vbox to 0pt{\hbox
+to\headwidth{\dotfill}\vss}}
+
+
+\lhead{\Title}
+% \chead{\titlefont {\color{Grey-Light}\leftmark}}
+\chead{}
+\rhead{\titlefont \thepage}
+
+\lfoot{\titlefont {{\color{Salmon-Dark}oh}{\color{LightAmber-Dark}no}{\color{Grey}sequences}{\color{Salmon-Dark}!} }}
+\cfoot{}
+\rfoot{\titlefont {\color{Grey-Light} era7 bioinformatics R\&D group}}
+% footer rule
+\renewcommand{\footruleskip}{0.66\baselineskip}
+\renewcommand{\footrulewidth}{.5pt}
+\renewcommand{\footrule}{{\color{LightAmber-MatteLight}%
+\vskip-\footruleskip\vskip-\footrulewidth
+\hrule width\headwidth height\footrulewidth\vskip\footruleskip}}
+
+\renewcommand{\footrule}{\vbox to 0pt{\hbox
+to\headwidth{\color{Salmon}{\dotfill}}\vss}}
+
 
 % At last: 
 % The document itself!:
@@ -473,6 +534,7 @@ $endif$
 
 
 $if(title)$
+\titlepage
 \maketitle
 $endif$
 
@@ -490,6 +552,24 @@ $body$
 
 %$if(alignment)$
 \end{$alignment$}
+$endif$
+
+$if(natbib)$
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$biblio-files$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
 $endif$
 
 

@@ -42,6 +42,18 @@
 \usepackage{fixltx2e}
 
 
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+$endif$
+$if(biblatex)$
+\usepackage{biblatex}
+$if(biblio-files)$
+\bibliography{$biblio-files$}
+$endif$
+$endif$
+
+
 % fontspec means we can specify pretty much any font.
 % Because we are using XeTeX material,
 % this template needs to be called with the `--xetex` flag. 
@@ -472,6 +484,25 @@ $if(alignment)$
 $endif$
 
 $body$
+
+
+$if(natbib)$
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$biblio-files$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
+$endif$
 
 %$if(alignment)$
 \end{$alignment$}

@@ -214,7 +214,8 @@ commandchars=\\\{\}}
 \newcommand{\NormalTok}[1]{\textcolor{solarized@base00}{#1}}
 
 % monospace also grey
-\setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{PT Mono}
+% \setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{PT Mono}
+\setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{Source Code Pro}
 
 % color fixes
 \makeatletter
@@ -380,6 +381,9 @@ framefg=.3 .1 .68, nosideways, width=0pt
 $if(subscript)$
 \newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
 $endif$
+
+% math diagrams
+\usepackage[all]{xy}
 
 
 % Web-style links:

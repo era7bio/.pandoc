@@ -13,11 +13,7 @@ $if(highlighting-css)$
 $highlighting-css$
   </style>
 $endif$
-$if(css)$
-$for(css)$
-  <link rel="stylesheet" href="$css$" $if(html5)$$else$type="text/css" $endif$/>
-$endfor$
-$else$
+
 <link href='http://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
 <style>
   html { background-color: #425331; height: 100%;}
@@ -43,6 +39,7 @@ $else$
   p { margin-bottom: 1.333em; }
   strong {  color: #df6b62; }
   em {  font-weight: 400; color: #fdfdfd;}
+  .MathJax { color: #fdfdfd;}
   code {  font-family: PT Mono; color: #cdcdcd; background-color: #153037; }
   pre { font-size: .75em; line-height: 1em; }
  
@@ -221,14 +218,12 @@ $else$
   /* The items to-be-selected */
   .incremental > *[aria-selected] ~ * { opacity: 0.2; }
 </style>
-$endif$
-$if(math)$
-  $math$
-$endif$
-$for(header-includes)$
-  $header-includes$
-$endfor$
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 </head>
+
 <body>
 $if(title)$
 <section>
@@ -243,9 +238,6 @@ $for(include-before)$
 $include-before$
 $endfor$
 $body$
-$for(include-after)$
-$include-after$
-$endfor$
 $dzslides-core$
 </body>
 </html>
