@@ -352,6 +352,9 @@ $endif$
 \let\endquoteOld\endquote
 \renewenvironment{quote}{\vspace{\baselineskip}\itshape\quoteOld\begin{tabu}{|[2pt]p{.9\textwidth}}}{\end{tabu}\endquoteOld\vspace{\baselineskip}}
 
+% longtable needed by latest pandoc version
+\usepackage{longtable}
+
 \setupctable{
 captionskip=0pt, framerule=0pt, nostar,
 center, framesep=0pt, pos=tbp,
