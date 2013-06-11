@@ -143,6 +143,7 @@ $if(biblatex)$
 $endif$
 
 
+\usepackage{longtable}
 \usepackage{ctable}
 \usepackage{float}
 \usepackage[normalem]{ulem}
@@ -158,13 +159,16 @@ $endif$
 \newfontfamily\sectfont
   [BoldFont={* Bold},
    Numbers={OldStyle,Proportional},
-   Color = Grey
+   Color = Grey,
+   Mapping = tex-text
   ]
   {Bitter}
 
 \newfontfamily\titlefont
   [BoldFont={Open Sans},
-   Numbers={OldStyle,Proportional}]
+   Numbers={OldStyle,Proportional},
+   Mapping = tex-text
+  ]
   {Open Sans Light}
 
 \usepackage{sectsty}
