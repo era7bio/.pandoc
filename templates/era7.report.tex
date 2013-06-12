@@ -110,7 +110,7 @@
 % Margins, etc:
 % the `geometry` package makes for convenient adjusting of margins, which is what
 % you asked about.  Of course it can do much more, even make coffee for you:
-\usepackage{geometry}
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 \geometry{a4paper}
 
 \usepackage{setspace}
