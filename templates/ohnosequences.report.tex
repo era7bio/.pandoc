@@ -131,7 +131,9 @@
 $if(natbib)$
   \usepackage[numbers]{natbib}
   \bibliographystyle{agsm}
-  \renewcommand\harvardurl[1]{\textbf{URL:} \texttt{\textcolor{OldCyan}{#1}}}
+  % \renewcommand\harvardurl[1]{\textbf{URL:} \texttt{\textcolor{OldCyan}{#1}}}
+  \renewcommand\harvardurl[1]{\textbf{URL:} \url{#1}}
+
 $endif$
 % for biblatex
 $if(biblatex)$
@@ -420,10 +422,6 @@ $endif$
   urlcolor=OldCyan,
   urlbordercolor=OldCyan
 }
-$if(url)$
-\usepackage{url}
-$endif$
-\urlstyle{same}
 
 \let\OldHref\href
 \renewcommand{\href}[2]{\OldHref[pdfnewwindow]{#1}{{#2}}}
@@ -627,18 +625,17 @@ $if(alignment)$
 $endif$
 
 $if(natbib)$
-  $if(biblio-files)$
-    $if(biblio-title)$
-      $if(book-class)$
-        \renewcommand\bibname{$biblio-title$}
-      $else$
-        \renewcommand\refname{$biblio-title$}
-      $endif$
-    $endif$
-    
-    \bibliography{$biblio-files$}
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+$endif$
 
-  $endif$
+\bibliography{$bibliography$}
 $endif$
 
 $if(biblatex)$
