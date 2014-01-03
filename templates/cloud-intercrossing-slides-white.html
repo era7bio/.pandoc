@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+$for(author-meta)$
+  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$" />
+$endif$
+  <title>$if(title-prefix)$$title-prefix$ - $endif$$if(pagetitle)$$pagetitle$$endif$</title>
+$if(highlighting-css)$
+  <style type="text/css">
+$highlighting-css$
+  </style>
+$endif$
+$if(css)$
+$for(css)$
+  <link rel="stylesheet" href="$css$" $if(html5)$$else$type="text/css" $endif$/>
+$endfor$
+$else$
+<link href='http://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+<style>
+  html { background-color: #425331; }
+  body { 
+    background-color: #f9fcfe; 
+    color: #414141;
+    text-align: left;
+  }
+  /* A section is a slide. It's size is 800x600, and this will never change */
+  section {
+
+    display: inline-block;
+    font-family: Open Sans, sans;
+    font-weight: 400;
+    font-size: 225%; /* 16 * 2.25 = 36 */
+    color: #535353;
+  }
+
+  p { margin-bottom: 1.333em; }
+  strong { color: #b8913d; } 
+  em {  font-weight: 400; color: #121212; }
+  code {  font-family: PT Mono; font-size: 76%; }
+  address, blockquote, dl, fieldset, p, form, h1, h2, h3, h4, 
+  h5, h6, hr, ol, pre, table, ul, dl { 
+    vertical-align: middle;
+  }
+  h1, h2, h3 {
+    margin-top:0; margin-bottom:0;
+    letter-spacing: -1px;
+    text-align: center;
+    font-family: Bitter;
+    font-weight: normal;
+    color: #b8463d;
+  }
+  h1 {  font-size:2em; padding: 0.6666em 0; }
+  h1 { padding-top: 0; }
+  h2 {  font-size:1.75em; padding:0.381em 0;  }
+  h3 {  
+    font-size: 1.5em; 
+    padding-top: 0;
+    padding-bottom: 0.8888em;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left; 
+  }
+  section.titleslide h1 {}
+  h1.title { 
+    text-align: right;
+    font-size: 2.4em;
+    font-family: Bitter;
+    font-weight: bold; 
+    font-style: italic;
+    color: #b8913d;
+    padding: 0.6666em 0;
+    padding-bottom: 0;
+  }
+    h2.author { 
+    font-size: 1.25em;
+    font-family: Open Sans;
+    text-align: right;
+    margin: 0 0 0 0;
+    font-weight: 300; color:#266871; 
+  }
+  h3.date { 
+    text-align: right;
+    font-size: 1em;
+    font-family: Open Sans;
+    margin: 0 0 0 0;
+    font-weight: 300; font-style: normal;
+  }
+  ul { list-style-type: round;}
+  ol { list-style-type: decimal;}
+  ul, ol {
+    margin: 10px 10px 10px 80px;
+  }
+  li { text-align: left; }
+  q { quotes: "“" "”" "‘" "’"; }
+  blockquote { 
+    margin-top: 1.333em;
+    padding-top: 1.333em;
+    padding-bottom: 1.333em; 
+    padding-left: 2em;
+    padding-right: 2em;
+    font-style: italic;
+    text-align: right;
+    border-right: 6px solid #b8463d;
+    background-color: #f2f2f2;
+  }
+  a:link {color:#266871; text-decoration: none;}      /* unvisited link */
+  a:visited {color:#266871; text-decoration: none;}  /* visited link */
+  a:hover {color:#569ca6;}  /* mouse over link */
+  a:active {color:#3e7f89;}  /* selected link */
+
+  /* Figures are displayed full-page, with the caption on
+     top of the image/video */
+  figure {
+    background-color: transparent;
+    overflow: visible;
+  }
+  img:first-of-type {
+    margin-left: -80px;
+    margin-top: -120px;
+    position:absolute;
+    width: 800px;
+    height: 600px;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  figure > img {
+    width: 800px !important;
+    height: 600px !important;
+    margin-left: -80px;
+    margin-top: -120px;
+  }
+  figcaption {
+    margin: 70px;
+  }
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 40px;
+    text-align: right;
+    background-color: #F3F4F8;
+    border-top: 1px solid #CCC;
+  }
+
+  /* Transition effect */
+  /* Feel free to change the transition effect for original
+     animations. See here:
+     https://developer.mozilla.org/en/CSS/CSS_transitions
+     How to use CSS3 Transitions: */
+  section {
+      -moz-transition: left 200ms ease-out 0s;
+      -webkit-transition: left 200ms ease-out 0s;
+      -ms-transition: left 200ms ease-out 0s;
+      transition: left 200ms ease-out 0s;
+  }
+
+  /* Before */
+  section { 
+
+    width: 640px;
+    position: absolute;
+    height:360px;
+    top: 50%; left: 50%;
+    margin-left: -320px; margin-top: -180px;
+    vertical-align: middle;
+    left: -150%; }
+  /* Now */
+  section[aria-selected] { 
+    /* 16:9 640x360 */
+    width: 640px;
+    position: absolute;
+    height:360px;
+    top: 50%; left: 50%;
+    margin-left: -320px; margin-top: -180px;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  /* After */
+  section[aria-selected] ~ section { 
+
+    width: 640px;
+    position: absolute;
+    height:360px;
+    top: 50%; left: 50%;
+    margin-left: -320px; margin-top: -180px;
+    vertical-align: middle;
+    left: +150%; 
+  }
+
+  /* Incremental elements */
+
+  /* By default, visible */
+  .incremental > * { opacity: 1; }
+
+  /* The current item */
+  .incremental > *[aria-selected] { color: #b8913d; opacity: 1; font-weight: 500;}
+
+  /* The items to-be-selected */
+  .incremental > *[aria-selected] ~ * { opacity: 0.3; }
+
+  /*logos*/
+  #logos_div {
+    position: absolute;
+    
+  }
+  #ohnoseq_logo_div {}
+  #ohnoseq_logo {
+    /*6.132867133*/
+    height: 20px; width: 123px;
+    top:570px;
+    left: 730px;
+    position: relative;
+  }
+  #era7_logo_div {}
+  #era7_logo {
+    /*4.866071429*/
+    height: 20px; width: 97px;
+    position: relative;
+    top: 540px;
+    left: 755px;
+  }
+  #intercrossing_logo {
+    /*1.236979167*/
+    height: 64px; width: 80px;
+    position: relative;  
+    top:45px;
+    left: 780px;
+  }
+</style>
+$endif$
+$if(math)$
+  $math$
+$endif$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+$if(title)$
+<section>
+  <h1 class="title">$title$</h1>
+$for(author)$
+  <h2 class="author">$author$</h2>
+$endfor$
+  <h3 class="date">$date$</h3>
+</section>
+$endif$
+<div id="logos_div">
+  <div id="ohnoseq_logo_div">
+    <a href="http://ohnosequences.com">
+      <img id="ohnoseq_logo" src="ohnoseq-logo.png">
+    </a>
+  </div>
+  </div>
+  <div id="era7_logo_div">
+    <a href="http://era7bioinformatics.com">
+      <img id="era7_logo" src="era7-logo.png">
+    </a>
+  </div>
+  <div id="intercrossing_logo_div">
+    <a href="http://intercrossing.wikispaces.com">
+      <img id="intercrossing_logo" src="intercrossing-logo.png">
+    </a>
+  </div>
+</div> 
+$for(include-before)$
+$include-before$
+$endfor$
+$body$
+$for(include-after)$
+$include-after$
+$endfor$
+$dzslides-core$
+</body>
+</html>

@@ -519,18 +519,16 @@ to\headwidth{\dotfill}\vss}}
 % \chead{\titlefont {\color{Grey-Light}\leftmark}}
 \chead{}
 \rhead{\titlefont \thepage}
-\lfoot{\titlefont {\color{Grey-Light} 
-© \href{http://era7bioinformatics.com}{era7 bioinformatics}
-}}
-\cfoot{\titlefont\footnotesize {\color{Grey-Light}
-Era7 Bioinformatics SLU \\
-Ins. Reg. Mer. de Granada Tomo 1110, \\
-Libro 0, Folio 77 Hoja 8 GR 25007 \\ 
-NIF: B18697110 \\
-}}
-\rfoot{\titlefont {\color{Grey-Light}
-\href{https://creativecommons.org/licenses/by-sa/3.0/}{CC BY-SA 3.0}
-}}
+\lfoot{%\mbox{}
+\titlefont\vspace{0.0001\baselineskip}
+{{\href{http://intercrossing.wikispaces.com}{INTERCROSSING}} {network} } \\
+\titlefont {\itshape\color{Grey-Light} cloud and NGS course}%
+}
+\cfoot{}
+\rfoot{
+\titlefont {{\color{Salmon-Dark}oh}{\color{LightAmber-Dark}no}{\color{Grey}sequences}{\color{Salmon-Dark}!} } \\
+\titlefont {\color{Grey-Light} era7 bioinformatics R\&D group}%
+}
 % footer rule
 \renewcommand{\footruleskip}{0.66\baselineskip}
 \renewcommand{\footrulewidth}{.5pt}
@@ -575,8 +573,6 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
 
 \begin{center}
 
-\includegraphics[scale=.21]{/home/eparejatobes/.pandoc/templates/logo-era7.pdf}
-
   \begin{minipage}{.86\textwidth}\center\titlefont
     
     % {\large\titlefont
@@ -586,15 +582,30 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
     %   $endif$
     %   \title{$title$}
     % }
-    \title{\huge {$title$}}
+    \title{\Huge {$title$}}
 
-    \begin{minipage}{.50\textwidth}\center
+    {\flushleft\author{$for(author)$$author$$sep$ \and $endfor$}}
+    \maketitle
+  \end{minipage}
+
+  \begin{minipage}{.66\textwidth}\center
+  \vspace{2\baselineskip}
+    {\large\titlefont\itshape
+      {Cloud Computing and NGS data analysis}\vspace{0.4\baselineskip}
+    }
+    {\titlefont\large
+      {\href{http://intercrossing.wikispaces.com}{INTERCROSSING} course}
+    }
+  \end{minipage}
+
+  \begin{minipage}{.33\textwidth}\center
   \vspace{2\baselineskip}
     {\Large\titlefont
-      Project: {\bfseries meta\_mbo}
+      {{\color{Salmon-Dark}oh}{\color{LightAmber-Dark}no}{\color{Grey}sequences}{\color{Salmon-Dark}!}}
     }
-  \vspace{1\baselineskip}
   \end{minipage}
+
+  
 
   \begin{minipage}{.33\textwidth}\color{Salmon}\center
     \dotfill\\[2\baselineskip]
@@ -607,12 +618,6 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
     }
   \end{minipage}
 
-    {\flushleft\author{$for(author)$$author$$sep$ \and $endfor$}}
-    \maketitle
-  \end{minipage}
-
-  
-
 
 
 \end{center}
@@ -621,7 +626,7 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
 
 $if(toc)$
 % \setcounter{tocdepth}{$toc-depth$}
-\tableofcontents
+\tableofcontents\newpage
 $endif$
 
 

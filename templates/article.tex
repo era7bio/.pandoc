@@ -1,8 +1,19 @@
 
 \documentclass[10pt]{article}  
 
-% to prevent funny stuff happening with old packages (I think)
 \usepackage{ifxetex}
+
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+$endif$
+$if(biblatex)$
+\usepackage{biblatex}
+\nocite{*}
+$if(biblio-files)$
+\bibliography{$biblio-files$}
+$endif$
+$endif$
 
 % The declaration of the document class:
 
@@ -40,8 +51,6 @@
 
 % -- We are in swanky unicode, XeTeX land, and must now import these packages:
 \usepackage{fontspec,xltxtra,xunicode}
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \usepackage{fixltx2e}
 
 
@@ -110,7 +119,7 @@
 % Margins, etc:
 % the `geometry` package makes for convenient adjusting of margins, which is what
 % you asked about.  Of course it can do much more, even make coffee for you:
-\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+\usepackage{geometry}
 \geometry{a4paper}
 
 \usepackage{setspace}
@@ -125,25 +134,7 @@
 % can adjust the margins by going into this file and messing with the margins.
 % the syntax is very unforgiving, but permits 3cm and 2.5in and some other things.
 
-% references
 
-% for natbib
-$if(natbib)$
-  \usepackage[numbers]{natbib}
-  \bibliographystyle{agsm}
-  \renewcommand\harvardurl[1]{\textbf{URL:} \texttt{\textcolor{OldCyan}{#1}}}
-$endif$
-% for biblatex
-$if(biblatex)$
-  \usepackage{biblatex}
-  % if there's some bib file, add it
-  $if(biblio-files)$
-    \bibliography{$biblio-files$}
-  $endif$
-$endif$
-
-
-\usepackage{longtable}
 \usepackage{ctable}
 \usepackage{float}
 \usepackage[normalem]{ulem}
@@ -159,20 +150,19 @@ $endif$
 \newfontfamily\sectfont
   [BoldFont={* Bold},
    Numbers={OldStyle,Proportional},
-   Color = Grey,
-   Mapping = tex-text
+   Color = Grey
   ]
   {Bitter}
 
 \newfontfamily\titlefont
   [BoldFont={Open Sans},
-   Numbers={OldStyle,Proportional},
-   Mapping = tex-text
-  ]
+   Numbers={OldStyle,Proportional}]
   {Open Sans Light}
 
 \usepackage{sectsty}
 \allsectionsfont{\sectfont\textmd}
+
+
 
 
 % Solarized Light
@@ -218,8 +208,7 @@ commandchars=\\\{\}}
 \newcommand{\NormalTok}[1]{\textcolor{solarized@base00}{#1}}
 
 % monospace also grey
-% \setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{PT Mono}
-\setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{Source Code Pro}
+\setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{PT Mono}
 
 % color fixes
 \makeatletter
@@ -234,9 +223,6 @@ commandchars=\\\{\}}
 % http://tex.stackexchange.com/questions/52850/temporarily-increase-the-limit-on-space-size
 \let\OldTexttt\texttt
 \renewcommand{\texttt}[1]{ \emergencystretch=2em \OldTexttt{#1} }
-% maybe?
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-
 
 
 % $if(listings)$
@@ -356,9 +342,6 @@ $endif$
 \let\endquoteOld\endquote
 \renewenvironment{quote}{\vspace{\baselineskip}\itshape\quoteOld\begin{tabu}{|[2pt]p{.9\textwidth}}}{\end{tabu}\endquoteOld\vspace{\baselineskip}}
 
-% longtable needed by latest pandoc version
-\usepackage{longtable}
-
 \setupctable{
 captionskip=0pt, framerule=0pt, nostar,
 center, framesep=0pt, pos=tbp,
@@ -389,10 +372,6 @@ $if(subscript)$
 \newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
 $endif$
 
-% math diagrams
-\usepackage[all]{xy}
-\xyoption{pdf}  % improves rendering
-
 
 % Web-style links:
 
@@ -408,26 +387,14 @@ $endif$
 % Nowadays LaTeX can handle all of this with another half million macros:
 
 \usepackage[breaklinks=true]{hyperref}
-\hypersetup{
-  setpagesize=false, % page size defined by xetex
-  unicode=false, % unicode breaks when used with xetex
-  xetex,
-  pdfnewwindow,
-  colorlinks,%
-  citecolor=OldCyan,%
-  filecolor=OldCyan,%
-  linkcolor=OldCyan,%
-  urlcolor=OldCyan,
-  urlbordercolor=OldCyan
-}
+\hypersetup{colorlinks,%
+citecolor=OldCyan-Dark,%
+filecolor=OldCyan-Dark,%
+linkcolor=OldCyan-Dark,%
+urlcolor=OldCyan-Dark}
 $if(url)$
 \usepackage{url}
 $endif$
-\urlstyle{same}
-
-\let\OldHref\href
-\renewcommand{\href}[2]{\OldHref[pdfnewwindow]{#1}{{#2}}}
-
 % ugly fix for link colors in xetex
 \makeatletter
 \def\HyColor@@@@UseColor#1\@nil{\addfontfeatures{Color=#1}}
@@ -482,13 +449,20 @@ $for(header-includes)$
 $header-includes$
 $endfor$
 
-$if(title)$
-  \title{$title$}
-$else$
-  \title{you need a title!}
-$endif$
+% Title, authors, date.
+% If you specified title authors and date at the start of 
+% your pandoc-markdown file, pandoc knows the 'values' of the
+% variables: title authors date and fills them in.
 
-% page style!
+$if(title)$
+\title{\titlefont $title$}
+$else$
+\title{you need a title!}
+$endif$
+\author{$for(author)$$author$$sep$\\$endfor$}
+$if(date)$
+\date{$date$}
+$endif$
 
 % space between text and footer
 % 
@@ -500,6 +474,7 @@ $endif$
 \setlength{\topmargin}{0pt}
 % \setlength{\textheight}{612pt}
 
+
 \makeatletter
 \let\Title\@title
 \let\Author\@author
@@ -510,27 +485,22 @@ $endif$
 
 \renewcommand{\sectionmark}[1]{%
 \markboth{#1}{}}
+
 % \fancyheadoffset{0cm}
 \renewcommand{\headrulewidth}{.5pt}
+
 \renewcommand{\headrule}{\vbox to 0pt{\hbox
 to\headwidth{\dotfill}\vss}}
+
 
 \lhead{\Title}
 % \chead{\titlefont {\color{Grey-Light}\leftmark}}
 \chead{}
 \rhead{\titlefont \thepage}
-\lfoot{\titlefont {\color{Grey-Light} 
-© \href{http://era7bioinformatics.com}{era7 bioinformatics}
-}}
-\cfoot{\titlefont\footnotesize {\color{Grey-Light}
-Era7 Bioinformatics SLU \\
-Ins. Reg. Mer. de Granada Tomo 1110, \\
-Libro 0, Folio 77 Hoja 8 GR 25007 \\ 
-NIF: B18697110 \\
-}}
-\rfoot{\titlefont {\color{Grey-Light}
-\href{https://creativecommons.org/licenses/by-sa/3.0/}{CC BY-SA 3.0}
-}}
+
+\lfoot{\titlefont {{\color{Salmon-Dark}oh}{\color{LightAmber-Dark}no}{\color{Grey}sequences}{\color{Salmon-Dark}!} }}
+\cfoot{}
+\rfoot{\titlefont {\color{Grey-Light} era7 bioinformatics R\&D group}}
 % footer rule
 \renewcommand{\footruleskip}{0.66\baselineskip}
 \renewcommand{\footrulewidth}{.5pt}
@@ -540,15 +510,6 @@ NIF: B18697110 \\
 
 \renewcommand{\footrule}{\vbox to 0pt{\hbox
 to\headwidth{\color{Salmon}{\dotfill}}\vss}}
-
-
-% Title, authors, date.
-% If you specified title authors and date at the start of 
-% your pandoc-markdown file, pandoc knows the 'values' of the
-% variables: title authors date and fills them in.
-
-
-
 
 
 % At last: 
@@ -571,57 +532,14 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
 \begin{document}
 
 
-\begin{titlepage}
-
-\begin{center}
-
-\includegraphics[scale=.21]{/home/eparejatobes/.pandoc/templates/logo-era7.pdf}
-
-  \begin{minipage}{.86\textwidth}\center\titlefont
-    
-    % {\large\titlefont
-    %   \author{$for(author)$$author$$sep$\\$endfor$}
-    %   $if(date)$
-    %   \date{$date$}
-    %   $endif$
-    %   \title{$title$}
-    % }
-    \title{\huge {$title$}}
-
-    \begin{minipage}{.50\textwidth}\center
-  \vspace{2\baselineskip}
-    {\Large\titlefont
-      Project: {\bfseries meta\_mbo}
-    }
-  \vspace{1\baselineskip}
-  \end{minipage}
-
-  \begin{minipage}{.33\textwidth}\color{Salmon}\center
-    \dotfill\\[2\baselineskip]
-  \end{minipage}
-
-  \begin{minipage}{.33\textwidth}\center
-
-    {\large\titlefont
-      \href{http://era7bioinformatics.com}{{\bfseries era7} {\color{Grey-Light}bioinformatics}}
-    }
-  \end{minipage}
-
-    {\flushleft\author{$for(author)$$author$$sep$ \and $endfor$}}
-    \maketitle
-  \end{minipage}
-
-  
-
-
-
-\end{center}
-
-\end{titlepage}
+$if(title)$
+\titlepage
+\maketitle
+$endif$
 
 $if(toc)$
-% \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
+
 $endif$
 
 
@@ -631,31 +549,26 @@ $endif$
 
 $body$
 
-
-
-$if(alignment)$
+%$if(alignment)$
 \end{$alignment$}
 $endif$
 
 $if(natbib)$
-  $if(biblio-files)$
-    $if(biblio-title)$
-      $if(book-class)$
-        \renewcommand\bibname{$biblio-title$}
-      $else$
-        \renewcommand\refname{$biblio-title$}
-      $endif$
-    $endif$
-    
-    \bibliography{$biblio-files$}
-
-  $endif$
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
 $endif$
+$endif$
+\bibliography{$biblio-files$}
 
+$endif$
+$endif$
 $if(biblatex)$
-  \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 $endif$
-
 
 
 \end{document}
