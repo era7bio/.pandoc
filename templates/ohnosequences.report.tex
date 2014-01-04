@@ -3,51 +3,12 @@
 
 % to prevent funny stuff happening with old packages (I think)
 \usepackage{ifxetex}
-
-% The declaration of the document class:
-
-% The second line here, i.e.
-% \documentclass[12pt]{scrartcl} 
-% is a standard LaTeX document class declaration: 
-% we say what kind of document we are making in curly brackets, 
-% and specify any options in square brackets.
-
-% (The previous line is a pseudo-comment, declaring that we will
-% use the special XeTeX machinery for its more extensive font list
-% and its use of unicode; 
-% in general, LaTeX 'comments' like this one
-%  begin with % and end with a linebreak.)
-
-% Note that there we have nothing in the nature of a template;
-% it's just a standard bit of LaTeX pandoc will copy unaltered into the 
-% LaTeX file it is writing.  But suppose you wrote something
-% more akin to the corresponding line in Pandoc's default 
-% latex.template file, say:
-
-% \documentclass$if(fontsize)$[$fontsize$]$endif${scrartcl}
-
-% then you would have invented a 'variable', fontsize, 
-% and could write things like 
-
-% `markdown2pdf my.txt --xetex --variable=fontsize:12pt -o my.pdf` or
-% `pandoc -r markdown -w html my.txt -s --xetex --variable=fontsize:24pt -o my.tex`. 
-
-% If we specified --variable-fontsize:12, then template substitution
-% would yield a LaTeX document beginning
-% \documentclass[12pt]{scrarcl}
-% which is just what we said anyway. 
-% But we could also specify a different fontsize.
-
-% -- We are in swanky unicode, XeTeX land, and must now import these packages:
+% xetex font-related packages
 \usepackage{fontspec,xltxtra,xunicode}
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% I don't know why this is here
 \usepackage{fixltx2e}
-
-
-% fontspec means we can specify pretty much any font.
-% Because we are using XeTeX material,
-% this template needs to be called with the `--xetex` flag. 
 
 %%% color definitions %%%
 \usepackage[usenames,dvipsnames,xetex]{xcolor}
@@ -90,40 +51,23 @@
 \definecolor{solarized@cyan}{HTML}{2AA198}
 \definecolor{solarized@green}{HTML}{859900}
 
-% Symbols: 
-% Pandoc imports the extensive `amsmath` collection of symbols 
-% for typesetting ordinary math.  
+% math symbols and such
 \usepackage{amsmath}
-% if you use exotic symbols you need to import specific packages, eg. for
-% electrical engineering diagrams, musical notation, exotic currency symbols,
-% the unspeakable rites of freemasonry etc.
 \usepackage{unicode-math}
 
-% `babel`: 
-% The `babel` package, among other things, lets you determine what 
-% language you are using in a given stretch of text, so that typesetting 
-% will go well. Here we specify that mostly, we are speaking English:
+% english support
 \usepackage{polyglossia}
 \setmainlanguage{english}
 
-
-% Margins, etc:
-% the `geometry` package makes for convenient adjusting of margins, which is what
-% you asked about.  Of course it can do much more, even make coffee for you:
+% paper size and lead
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 \geometry{a4paper}
-
 \usepackage{setspace}
 % default lead is 1.216666
 \setstretch{1.15}
-% \showthe\baselineskip
-
 
 % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{parskip} 
-% so if you just keep a copy of this template in the directory you are working in, you
-% can adjust the margins by going into this file and messing with the margins.
-% the syntax is very unforgiving, but permits 3cm and 2.5in and some other things.
 
 % references
 
@@ -131,10 +75,10 @@
 $if(natbib)$
   \usepackage[numbers]{natbib}
   \bibliographystyle{agsm}
-  % \renewcommand\harvardurl[1]{\textbf{URL:} \texttt{\textcolor{OldCyan}{#1}}}
-  \renewcommand\harvardurl[1]{\textbf{URL:} \url{#1}}
-
+  % so that URLs break across lines
+  \renewcommand\harvardurl[1]{\textbf{URL:} \textcolor{OldCyan}{\url{#1}}}
 $endif$
+
 % for biblatex
 $if(biblatex)$
   \usepackage{biblatex}
@@ -154,10 +98,9 @@ $endif$
 
 % Open Sans, a beautiful fontface
 \setmainfont[Mapping = tex-text, Color = Grey, BoldFont = {* Semibold}, BoldItalicFont = {* Semibold Italic}, ItalicFont = {* Italic}]{Open Sans} 
-% \setmainfont[Mapping = tex-text, Color = Grey, BoldFont = {* Bold}, BoldItalicFont = {* Bold Italic}, ItalicFont = {* Italic}]{PT Sans}
-% Droid Sans Mono matches Open Sans fairly well; both from Ascender
 % sort of like Cambria Math; somehow matches a sans body text 
 \setmathfont{Asana Math} % math font
+% font for sections: Bitter
 \newfontfamily\sectfont
   [BoldFont={* Bold},
    Numbers={OldStyle,Proportional},
@@ -165,7 +108,7 @@ $endif$
    Mapping = tex-text
   ]
   {Bitter}
-
+% the title font
 \newfontfamily\titlefont
   [BoldFont={Open Sans},
    Numbers={OldStyle,Proportional},
@@ -173,12 +116,12 @@ $endif$
   ]
   {Open Sans Light}
 
+% for changing the sections font
 \usepackage{sectsty}
 \allsectionsfont{\sectfont\textmd}
 
 
-% Solarized Light
-% \usepackage{color}
+% verbatim and code highlighting: Solarized Light
 \usepackage{fancyvrb}
 \DefineShortVerb[commandchars=\\\{\}]{\|}
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{fontsize=\footnotesize,%
@@ -219,18 +162,8 @@ commandchars=\\\{\}}
 \newcommand{\ErrorTok}[1]{\textcolor{solarized@red}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{\textcolor{solarized@base00}{#1}}
 
-% monospace also grey
-% \setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{PT Mono}
+% monospace also grey; Source Code Pro
 \setmonofont[Mapping=tex-ansi,Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{Source Code Pro}
-
-% color fixes
-\makeatletter
-\newcommand{\globalcolor}[1]{%
-  \color{#1}\global\let\default@color\current@color
-}
-\makeatother
-\AtBeginDocument{\globalcolor{Grey}}
-\renewcommand{\textcolor}[2]{{\addfontfeature{Color=#1}#2}}
 
 % allow to break lines more easily on tt text
 % http://tex.stackexchange.com/questions/52850/temporarily-increase-the-limit-on-space-size
@@ -239,68 +172,6 @@ commandchars=\\\{\}}
 % maybe?
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 
-
-
-% $if(listings)$
-% \usepackage{listings}
-% % monospace also grey
-% \setmonofont[Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{Consolas}
-% \usepackage{listings}
-% % "define" Scala
-% \lstdefinelanguage{scala}{
-%   morekeywords={abstract,case,catch,class,def,%
-%     do,else,extends,false,final,finally,%
-%     for,if,implicit,import,match,mixin,%
-%     new,null,object,override,package,%
-%     private,protected,requires,return,sealed,%
-%     super,this,throw,trait,true,try,%
-%     type,val,var,while,with,yield},
-%   otherkeywords={=>,<-,<\%,<:,>:,\#,@},
-%   sensitive=true,
-%   morecomment=[l]{//},
-%   morecomment=[n]{/*}{*/},
-%   morestring=[b]",
-%   morestring=[b]',
-%   morestring=[b]"""
-% }
-
-% % load default languages
-% % \lstloadlanguages{scala, java, bash, xml}
-% \newcommand{\fontcolor}[1]{\addfontfeature{Color=#1}}
-
-% \lstset{ %
-% % language=scala,
-% showspaces=false,               % show spaces adding particular underscores
-% showstringspaces=false,         % underline spaces within strings
-% showtabs=false,
-% columns=fullflexible,   % don't mess with spacing
-% extendedchars=false,   % don't mess with unicode stuff
-% tabsize=2,          % sets default tabsize to 2 spaces
-% breaklines=true,        % sets automatic line breaking
-% breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
-% lineskip={-0.5pt},
-% belowskip=\baselineskip,
-% aboveskip=\baselineskip,
-% frameround=tttt, %
-% framerule=0pt, %
-% framextopmargin=\baselineskip, %
-% framexbottommargin=\baselineskip, %
-% frame=trlb, %
-% rulecolor=\color{solarized@base3}, %
-% backgroundcolor=\color{solarized@base3}, %
-% basicstyle=\small\fontcolor{solarized@base00},       % the size of the fonts that are used for the code
-% numberstyle=\fontcolor{solarized@base01}, %
-% keywordstyle=\bfseries\fontcolor{solarized@green}, %
-% stringstyle=\fontcolor{solarized@cyan}, %
-% identifierstyle=\fontcolor{solarized@base00}, %
-% commentstyle=\itshape\fontcolor{solarized@base1}, %
-% emphstyle=\itshape\fontcolor{solarized@red} %
-% }
-
-% % \lstloadlanguages{scala, java, bash, xml}
-
-% % monospace also grey
-% \setmonofont[Color=solarized@base00,Numbers=Lining,Ligatures=NoRequired]{Consolas}
 % color fixes
 \makeatletter
 \newcommand{\globalcolor}[1]{%
@@ -310,22 +181,7 @@ commandchars=\\\{\}}
 
 \AtBeginDocument{\globalcolor{Grey}}
 \renewcommand{\textcolor}[2]{{\addfontfeature{Color=#1}#2}}
-$endif$
 
-% The default `plain` pagestyle just numbers the pages,
-% whereas  
-% \pagestyle{empty} 
-% would give you no numbering.
-% After one-million man-years of macro-composition, 
-% there are also fancy pagestyles with much wilder options 
-% for headers and footers, of course.
-
-% Footnotes
-% if you have code in your footnotes, the million macro march 
-% kind of bumps into itself.
-% Pandoc, having just rendered your text into LaTeX, 
-% knows whether the 'variable' `verbatim-in-note` is True, and 
-% If it is, it asks for a  LaTeX package that solves the dilemma:
 $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
@@ -343,15 +199,7 @@ $if(fancy-enums)$
 \usepackage{enumerate}
 $endif$
 
-
-
-
-% Table formatting: 
-% What if you make a table? -- Pandoc knows, of course, and 
-% then declares that its  variable `table` is True and 
-% imports a table package suitable to its pleasantly simple tables. 
-% Needless to say infinitely   complicated tables are possible in 
-% LaTeX with suitable packages. We are spared the temptation:
+% tables
 \usepackage{tabu}
 \taburulecolor{Salmon-Dark}
 \let\quoteOld\quote
@@ -369,24 +217,7 @@ doinside={}, mincapwidth=0pt, table,
 framebg=1 1 1, nonotespar, topcap,
 framefg=.3 .1 .68, nosideways, width=0pt
 }
-% $if(tables)$
-% \usepackage{array}
 
-% % Continuing on the topic of tables ... (we havent reached `endif`). 
-% % The commented out line below is in the default pandoc  latex.template.
-% % Some unpleasantness with table formatting must be corrected.
-
-% % -- This is needed because raggedright in table elements redefines \\:
-% \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
-% \let\PBS=\PreserveBackslash
-
-% $endif$
-
-
-% Subscripts:
-% Pandoc remembers whether you used subscripts, assigning True to 
-% its `subscript` variable 
-% It then needs to adopt a default with an incantation like this:
 $if(subscript)$
 \newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
 $endif$
@@ -394,20 +225,6 @@ $endif$
 % math diagrams
 \usepackage[all]{xy}
 \xyoption{pdf}  % improves rendering
-
-
-% Web-style links:
-
-% markdown inclines us to use links, since our texts can be made into html. 
-% Why not have clickable blue links even in 
-% learned, scientific, religious, juridical, poetical and other suchlike texts? 
-% Never mind that they have been proven to destroy the nervous system!
-
-% First, what about the fact that links like http://example.com are 
-% technically code and thus must not be broken across lines? 
-% [breaklinks=true] to the rescue!
-
-% Nowadays LaTeX can handle all of this with another half million macros:
 
 \usepackage[breaklinks=true]{hyperref}
 \hypersetup{
@@ -431,13 +248,7 @@ $endif$
 \def\HyColor@@@@UseColor#1\@nil{\addfontfeatures{Color=#1}}
 \makeatother
 
-
-% Images. 
-% In ye olde LaTeX one could only import a limited range of image
-% types, e.g. the forgotten .eps files.  Or else one simply drew the image with suitable
-% commands and drawing packages.  Today we want to import .jpg files we make with 
-% our smart phones or whatever:
-
+% images
 $if(graphics)$
 \usepackage{graphicx}
 % -- We will generate all images so they have a width \maxwidth. This means
@@ -451,31 +262,16 @@ $if(graphics)$
 \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
 $endif$
 
-% \usepackage{listings}
-
-
-% Section numbering.  
-% Here again is a variable you can specify on the commandline
-% `markdown2pdf my.txt --number-sections --xetex --template=/wherever/this/is -o my.pdf`
+% this is wrong
 $if(numbersections)$
 $else$
 \setcounter{secnumdepth}{3}
 $endif$
 
-% Footnotes: 
-% Wait, didn't we already discuss the crisis of code in footnotes?  
-% Evidently the order of unfolding of macros required that
-% we import a package to deal with them earlier
-% and issue a command it defines now. (Or maybe that's not the reason;
-% very often the order does matter as the insane system of macro expansion
-% must take place by stages.)
 $if(verbatim-in-note)$
 \VerbatimFootnotes % -- allows verbatim text in footnotes
 $endif$
 
-% Other stuff you specify on the command line:
-% You can include stuff for the header from a file specified on the command line;
-% I've never done this, but that stuff will go here:
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -487,10 +283,7 @@ $else$
 $endif$
 
 % page style!
-
-% space between text and footer
-% 
-% footer height
+% spaces
 \setlength{\footskip}{3\baselineskip}
 \setlength{\headsep}{3\baselineskip}
 \setlength{\skip\footins}{0cm}
@@ -531,35 +324,7 @@ to\headwidth{\dotfill}\vss}}
 \renewcommand{\footrule}{\vbox to 0pt{\hbox
 to\headwidth{\color{Salmon}{\dotfill}}\vss}}
 
-
-% Title, authors, date.
-% If you specified title authors and date at the start of 
-% your pandoc-markdown file, pandoc knows the 'values' of the
-% variables: title authors date and fills them in.
-
-
-
-
-
-% At last: 
-% The document itself!:
-
-% After filling in all these blanks above, or erasing them 
-% where they are not needed, Pandoc has finished writing the 
-% famous LaTeX *preamble* for your document.
-% Now comes the all-important command \begin{document}
-% which as you can see, will be paired with an \end{document} at the end.
-% Pandoc knows whether you have a title, and has already
-% specified what it is; if so, it demands that the title be rendered.  
-% Pandoc knows whether you want a table of contents, you
-% specify this on the command line.
-% Then, after fiddling with alignments, there comes the real
-% business: pandoc slaps its rendering of your text in the place of
-% the variable `body`
-% It then concludes the document it has been writing. 
-
 \begin{document}
-
 
 \begin{titlepage}
 
@@ -587,8 +352,6 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
     }
   \end{minipage}
 
-  
-
   \begin{minipage}{.33\textwidth}\color{Salmon}\center
     \dotfill\\[2\baselineskip]
   \end{minipage}
@@ -599,8 +362,6 @@ to\headwidth{\color{Salmon}{\dotfill}}\vss}}
       \href{http://era7bioinformatics.com}{{\bfseries era7} {\color{Grey-Light}bioinformatics}}
     }
   \end{minipage}
-
-
 
 \end{center}
 
@@ -625,23 +386,20 @@ $if(alignment)$
 $endif$
 
 $if(natbib)$
-$if(biblio-files)$
-$if(biblio-title)$
-$if(book-class)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-$endif$
-
-\bibliography{$bibliography$}
+  $if(biblio-files)$
+    $if(biblio-title)$
+      $if(book-class)$
+        \renewcommand\bibname{$biblio-title$}
+      $else$
+        \renewcommand\refname{$biblio-title$}
+      $endif$
+    $endif$
+  $endif$
+  \bibliography{$bibliography$}
 $endif$
 
 $if(biblatex)$
   \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 $endif$
-
-
 
 \end{document}
